@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モンスター単語クイズ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- トップ画面 -->
+    <div id="top-screen" class="screen active">
+        <div class="top-container">
+            <div class="brand-name">ALDO PRIMO</div>
+            <h1 class="main-title">モンスター単語クイズ</h1>
+            <div class="characters">
+                <div class="character boy-char">
+                    <div class="char-body">
+                        <div class="char-ears">
+                            <div class="ear left"></div>
+                            <div class="ear right"></div>
+                        </div>
+                        <div class="char-face">
+                            <div class="char-eyes">
+                                <div class="eye left">●</div>
+                                <div class="eye right">●</div>
+                            </div>
+                            <div class="char-mouth">▽</div>
+                        </div>
+                        <div class="char-leaf">🍃</div>
+                    </div>
+                </div>
+                <div class="character girl-char">
+                    <div class="char-body">
+                        <div class="char-crown">🌸</div>
+                        <div class="char-face">
+                            <div class="char-eyes">
+                                <div class="eye left">●</div>
+                                <div class="eye right">●</div>
+                            </div>
+                            <div class="char-mouth smile">◡</div>
+                        </div>
+                        <div class="char-wings">
+                            <div class="wing left">🌿</div>
+                            <div class="wing right">🌿</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-info">
+                <div class="progress-item">
+                    <span class="progress-label">累計正解</span>
+                    <span class="progress-value" id="total-correct">0</span>
+                </div>
+                <div class="progress-item">
+                    <span class="progress-label">カード</span>
+                    <span class="progress-value" id="card-count">0<small>/10</small></span>
+                </div>
+                <div class="progress-item">
+                    <span class="progress-label">レア</span>
+                    <span class="progress-value" id="rare-count">0<small>/5</small></span>
+                </div>
+            </div>
+            <div class="top-buttons">
+                <button class="btn btn-primary btn-large" onclick="startQuiz()">🌲 クイズスタート</button>
+                <button class="btn btn-secondary" onclick="showCollection()">📦 カードコレクション</button>
+                <button class="btn btn-sound" id="sound-toggle-btn" onclick="toggleSound()">🔊 音をONにする</button>
+                <button class="btn btn-danger btn-small" onclick="confirmReset()">リセット</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <button class="btn btn-back" onclick="showTop()">← もどる</button>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                    <span class="quiz-progress-text">もんだい <span id="round-question-num">1</span> / <span id="round-total">10</span></span>
+                </div>
+            </div>
+            <div class="quiz-card">
+                <div class="quiz-word-row">
+                    <div class="quiz-word" id="quiz-word">study</div>
+                    <button class="btn-speak" onclick="speakWord()" title="発音を聞く">🔊 発音</button>
+                </div>
+                <div class="quiz-sub">この単語の意味は？</div>
+            </div>
+            <div id="quiz-choices" class="choices"></div>
+            <div id="result-overlay" class="result-overlay hidden">
+                <div class="result-content">
+                    <div class="result-mark" id="result-mark"></div>
+                    <div class="result-text" id="result-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result-screen" class="screen">
+        <div class="result-screen-container">
+            <div class="result-emoji-display" id="result-emoji-display">🎉</div>
+            <h2 class="result-title" id="result-title">おつかれさま！</h2>
+            <p class="result-score" id="round-score"></p>
+            <p class="result-accuracy" id="round-accuracy"></p>
+            <div class="result-buttons">
+                <button class="btn btn-primary" id="review-btn" onclick="startReview()">📝 まちがえた問題をふくしゅう</button>
+                <button class="btn btn-primary" id="next-round-btn" onclick="startQuiz()">🔄 つぎの10もん</button>
+                <button class="btn btn-secondary" onclick="showTop()">🏠 ホームへ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- コレクション画面 -->
+    <div id="collection-screen" class="screen">
+        <div class="collection-container">
+            <div class="collection-header">
+                <button class="btn btn-back" onclick="showTop()">← もどる</button>
+                <h2>カードコレクション</h2>
+            </div>
+            <div id="card-grid" class="card-grid"></div>
+        </div>
+    </div>
+
+    <!-- カード獲得画面 -->
+    <div id="card-get-screen" class="screen">
+        <div class="card-get-container">
+            <div class="card-get-title" id="card-get-title">カードGET！</div>
+            <div class="card-get-rarity" id="card-get-rarity"></div>
+            <div class="card-get-display" id="card-get-display"></div>
+            <div class="card-get-name" id="card-get-name"></div>
+            <div class="card-get-desc" id="card-get-desc"></div>
+            <button class="btn btn-primary" onclick="closeCardGet()">OK</button>
+        </div>
+        <div id="card-get-particles" class="particles"></div>
+    </div>
+
+    <!-- カード詳細モーダル -->
+    <div id="card-detail-modal" class="modal hidden" onclick="closeCardDetail(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeCardDetail()">&times;</button>
+            <div class="detail-card" id="detail-card-display"></div>
+            <div class="detail-info">
+                <h3 id="detail-name"></h3>
+                <div class="detail-rarity" id="detail-rarity"></div>
+                <p id="detail-desc"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- コンプリート画面 -->
+    <div id="congrats-screen" class="screen">
+        <div class="congrats-container">
+            <div class="congrats-kusudama" id="congrats-kusudama">🎊</div>
+            <h1 class="congrats-title">CONGRATULATIONS!</h1>
+            <p class="congrats-text">すべてのカードを集めました！</p>
+            <div class="congrats-cards" id="congrats-cards"></div>
+            <button class="btn btn-primary btn-large" onclick="closeCongrats()">とじる</button>
+        </div>
+        <div id="confetti-container" class="confetti-container"></div>
+    </div>
+
+    <!-- リセット確認モーダル -->
+    <div id="reset-modal" class="modal hidden" onclick="closeResetModal(event)">
+        <div class="modal-content modal-small" onclick="event.stopPropagation()">
+            <h3>リセット確認</h3>
+            <p>すべての進行状況がリセットされます。<br>本当にリセットしますか？</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" onclick="resetProgress()">リセットする</button>
+                <button class="btn btn-secondary" onclick="closeResetModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
