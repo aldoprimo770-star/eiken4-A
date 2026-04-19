@@ -756,8 +756,8 @@ function startReview() {
 
 function nextQuestion() {
     isAnswering = false;
-    const overlay = document.getElementById("result-overlay");
-    overlay.classList.add("hidden");
+    document.getElementById("result-overlay").classList.add("hidden");
+    document.getElementById("next-question-btn").classList.add("hidden");
 
     if (roundIndex >= roundQuestions.length) {
         showRoundResult();
@@ -842,8 +842,8 @@ function selectAnswer(btn, selected) {
     roundIndex++;
 
     setTimeout(() => {
-        nextQuestion();
-    }, 1500);
+        document.getElementById("next-question-btn").classList.remove("hidden");
+    }, 800);
 }
 
 function showResult(correct, correctAnswer) {

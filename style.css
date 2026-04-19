@@ -436,6 +436,20 @@ body {
     gap: 12px;
 }
 
+.quiz-next-wrapper {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.btn-next {
+    padding: 14px 36px;
+    font-size: 1.1rem;
+}
+
+.btn-next.hidden {
+    display: none;
+}
+
 .choice-btn {
     background: white;
     border: 3px solid #e0e0e0;
