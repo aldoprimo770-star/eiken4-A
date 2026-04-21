@@ -712,6 +712,7 @@ function speakWord() {
 // ===== クイズ =====
 function startQuiz() {
     isReviewMode = false;
+    roundTotal = 10;
     roundCorrect = 0;
     roundIndex = 0;
     wrongInRound = [];
